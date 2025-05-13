@@ -2,7 +2,7 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY . .
-RUN npm install && npm run build
+RUN npm install && npm run build && npm run dev
 
 # Production stage (serve via nginx)
 FROM nginx:stable-alpine
