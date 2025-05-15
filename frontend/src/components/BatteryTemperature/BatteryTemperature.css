@@ -1,0 +1,16 @@
+.battery-temperature-container {
+  background-color: #1f2937; /* cinza escuro */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.battery-temperature-title {
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-align: center;
+}
