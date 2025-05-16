@@ -11,10 +11,12 @@ export default function useDashboardData() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Contadores separados para cada merge
+  // Contadores separados para cada merge 
   const [instanceCount, setInstanceCount] = useState(0);
   const [fullMergeCount, setFullMergeCount] = useState(0);
   const [inverseMergeCount, setInverseMergeCount] = useState(0);
+
+  const DATA_SLICE_LIMIT = 100;
 
   // Converte timestamp em string legível pt-BR
   const formatTimestamp = useCallback((timestamp) => {
@@ -32,7 +34,7 @@ export default function useDashboardData() {
   const normalizeTemperatureData = useCallback((raw) => {
     if (!Array.isArray(raw)) return [];
 
-    return raw.slice(0, 2000000).map(item => {
+    return raw.slice(0, DATA_SLICE_LIMIT).map(item => {
       const formatValue = (val) => {
         if (val === undefined || val === null) return null;
         const num = val / 1000;
@@ -130,8 +132,8 @@ export default function useDashboardData() {
       const batteryRaw = await batteryRes.json();
       const temperatureRaw = await temperatureRes.json();
 
-      const batteryLimited = Array.isArray(batteryRaw) ? batteryRaw.slice(0, 2000000) : [];
-      const temperatureLimited = Array.isArray(temperatureRaw) ? temperatureRaw.slice(0, 2000000) : [];
+      const batteryLimited = Array.isArray(batteryRaw) ? batteryRaw.slice(0, DATA_SLICE_LIMIT) : [];
+      const temperatureLimited = Array.isArray(temperatureRaw) ? temperatureRaw.slice(0, DATA_SLICE_LIMIT) : [];
       const temperatureNormalized = normalizeTemperatureData(temperatureLimited);
 
       // Merge original (interseção)
