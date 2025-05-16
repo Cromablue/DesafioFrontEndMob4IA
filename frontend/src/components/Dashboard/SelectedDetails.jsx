@@ -1,16 +1,17 @@
-// frontend\src\components\Dashboard\SelectedDetails.jsx
 export default function SelectedDetails({ selectedData }) {
-  // Se não houver dado selecionado, mostra uma mensagem padrão pro usuário
   if (!selectedData) {
     return (
-      <aside className="selected-details-sticky col-span-full p-4 bg-gray-800 text-white rounded shadow-md" aria-live="polite" aria-atomic="true">
+      <aside
+        className="selected-details-sticky col-span-full p-4 bg-gray-800 text-white rounded shadow-md"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <h3 className="text-xl font-semibold mb-2">Detalhes Selecionados</h3>
         <p>Selecione um ponto no gráfico para ver detalhes aqui.</p>
       </aside>
     );
   }
 
-  // Mapas de tradução dos códigos numéricos para textos
   const plugTypeMap = {
     0: "Unplugged",
     1: "AC",
@@ -27,13 +28,12 @@ export default function SelectedDetails({ selectedData }) {
     6: "Wireless",
   };
 
-  // Função auxiliar pra tratar valores nulos, vazios ou indefinidos
   const displayValue = (value, unit = '') => {
     if (value === undefined || value === null || value === '') return 'N/A';
     return `${value}${unit}`;
   };
 
-  // Desestrutura os dados recebidos
+  // Desestrutura com fallback para undefined para evitar erros
   const {
     timestampStr,
     plug_type,
@@ -44,17 +44,21 @@ export default function SelectedDetails({ selectedData }) {
     temp_cpu_c,
     temp_front_c,
     temp_back_c,
+    battery_level, // pode existir em algumas bases
   } = selectedData;
 
-  // Aplica os mapas de tradução para mostrar texto no lugar de número
-  const plugTypeText = plugTypeMap[plug_type] || 'N/A';
-  const batteryStatusText = batteryStatusMap[battery_status] || 'N/A';
+  // Aplica tradução, cuidando de valores nulos/undefined
+  const plugTypeText = plug_type !== null && plug_type !== undefined ? (plugTypeMap[plug_type] || 'N/A') : 'N/A';
+  const batteryStatusText = battery_status !== null && battery_status !== undefined ? (batteryStatusMap[battery_status] || 'N/A') : 'N/A';
 
   return (
-    <aside className="selected-details-sticky col-span-full p-4 bg-gray-800 text-white rounded shadow-md" aria-live="polite" aria-atomic="true">
+    <aside
+      className="selected-details-sticky col-span-full p-4 bg-gray-800 text-white rounded shadow-md"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <h3 className="text-xl font-semibold mb-4">Detalhes Selecionados</h3>
-      
-      {/* Tabela com todos os detalhes relacionados ao ponto selecionado */}
+
       <table className="w-full text-left border-collapse">
         <tbody>
           <tr className="border-b border-gray-700">
@@ -76,6 +80,10 @@ export default function SelectedDetails({ selectedData }) {
           <tr className="border-b border-gray-700">
             <th className="py-2 pr-4 font-semibold">Instant Current</th>
             <td className="py-2">{displayValue(inst_curr, ' mAh')}</td>
+          </tr>
+          <tr className="border-b border-gray-700">
+            <th className="py-2 pr-4 font-semibold">Battery Level</th>
+            <td className="py-2">{displayValue(battery_level, ' %')}</td>
           </tr>
           <tr className="border-b border-gray-700">
             <th className="py-2 pr-4 font-semibold">Temperatura Bateria</th>
