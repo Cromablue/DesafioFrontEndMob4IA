@@ -16,7 +16,7 @@ export default function useDashboardData() {
   const [fullMergeCount, setFullMergeCount] = useState(0);
   const [inverseMergeCount, setInverseMergeCount] = useState(0);
 
-  const DATA_SLICE_LIMIT = 100;
+  const DATA_SLICE_LIMIT = 100000;
 
   // Converte timestamp em string legível pt-BR
   const formatTimestamp = useCallback((timestamp) => {
